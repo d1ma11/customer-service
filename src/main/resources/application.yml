@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: customer-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/diplom
+    username: postgres
+    password: 1234567890
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    user: postgres
+    password: 1234567890
+    default-schema: public
+    locations: classpath:/db/migration
+    baseline-on-migrate: true
+
+  security:
+    secret:
+      key: ace8e983d9025773cf41d743c28d28b1aa1e4c7c3514575fb664425b26b2d7fd
+      expiration: 900000
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/
+  instance:
+    instance-id: ${spring.application.name}
+
+server:
+  port: 8081
+
