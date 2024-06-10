@@ -6,24 +6,24 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.mts.customerservice.entity.User;
+import ru.mts.customerservice.entity.Customer;
 import ru.mts.customerservice.model.JwtRequest;
 import ru.mts.customerservice.model.JwtResponse;
-import ru.mts.customerservice.repository.UserRepository;
+import ru.mts.customerservice.repository.CustomerRepository;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final JwtService jwtService;
-    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
     private final AuthenticationManager authenticationManager;
 
     /**
-     * Выполняет аутентификацию пользователя на основе предоставленных учетных данных и генерирует токен JWT.
+     * Выполняет аутентификацию пользователя на основе предоставленных учетных данных и генерирует токен JWT
      *
-     * @param request содержит номер телефона и пароль пользователя.
-     * @return объект {@link JwtResponse}, содержащий токен JWT и время его истечения.
+     * @param request содержит номер телефона и пароль пользователя
+     * @return Объект {@link JwtResponse}, содержащий токен JWT и время его истечения
      */
     public JwtResponse login(JwtRequest request) {
         Authentication authentication = authenticationManager.authenticate(
@@ -35,8 +35,8 @@ public class AuthenticationService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        User user = userRepository.findByPhone(request.getPhone()).get();
-        String jwtToken = jwtService.generateToken(user);
+        Customer customer = customerRepository.findByPhone(request.getPhone()).get();
+        String jwtToken = jwtService.generateToken(customer);
 
         return JwtResponse.builder()
                 .token(jwtToken)

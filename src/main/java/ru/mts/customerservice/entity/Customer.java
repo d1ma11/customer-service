@@ -1,5 +1,6 @@
 package ru.mts.customerservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "customers", schema = "public")
-public class User implements UserDetails {
+public class Customer implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,40 +29,51 @@ public class User implements UserDetails {
     private String phone;
 
     @Column(name = "password")
+    @JsonIgnore
     private String password;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
 
     @Override
     @Transient
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
     }
 
     @Override
     @Transient
+    @JsonIgnore
     public String getUsername() {
         return getPhone();
     }
 
     @Override
     @Transient
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
     @Transient
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
     @Transient
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
     @Transient
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }

@@ -20,11 +20,11 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     /**
-     * Создает компонент {@link SecurityFilterChain}, который определяет правила безопасности для приложения.
+     * Создает компонент {@link SecurityFilterChain}, который определяет правила безопасности для приложения
      *
      * @param http {@link HttpSecurity} используется для определения конфигураций безопасности
-     * @return настроенную цепочку фильтров безопасности {@link SecurityFilterChain}
-     * @throws Exception, если произошла ошибка при настройке цепочки фильтров безопасности
+     * @return Настроенную цепочку фильтров безопасности {@link SecurityFilterChain}
+     * @throws Exception если произошла ошибка при настройке цепочки фильтров безопасности
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,9 +32,7 @@ public class SecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/login").permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/customer/**").permitAll()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
